@@ -70,4 +70,16 @@ class UserController extends Controller
         return response()->json(['status'=>1,'friend_list'=>$result]);
     }
 
+    public function getRobotByHxId($hx_id){
+        $result = \DB::table('RMapEase')->where('EAccount',$hx_id)->first();
+        if ($result){
+            $r_uid = $result->RUId;
+            $robot = DB::table('RUserBase')
+                ->select('UId as r_uid','NName as name','HeadUrl as head_img')
+                ->where('UId',$r_uid)->first();
+            return response()->json(['status'=>1,'r_info'=>$robot]);
+        }
+
+    }
+
 }
