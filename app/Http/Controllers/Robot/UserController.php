@@ -89,6 +89,7 @@ class UserController extends Controller
             $robot = DB::table('RUserBase')
                 ->select('UId as r_uid','NName as name','HeadUrl as head_img')
                 ->where('UId',$r_uid)->first();
+            $robot->hx_id = $hx_id;
             return response()->json(['status'=>1,'r_info'=>$robot]);
         }
 
