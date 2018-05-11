@@ -44,9 +44,21 @@ class UserController extends Controller
     }
 
     public function getHxId($robot_id){
-        $result = \DB::table('RMapEase')->where('RUId',$robot_id)->first();
+        $result = \DB::table('RMapEase')
+            ->select('RUId as r_uid','EAccount as hx_id','NName as name','HeadUrl as head_img')
+            ->rightJoin('RUserBase','RUId','=','UId')
+            ->where('RUId',$robot_id)
+            ->first();
         if ($result){
-            return response()->json(['status'=>1,'hx_id'=>$result->EAccount]);
+            return response()->json(
+                [
+                    'status'=>1,
+                    'hx_id'=>$result->hx_id,
+                    'r_uid'=>$result->r_uid,
+                    'name'=>$result->name,
+                    'head_img'=>$result->head_img
+                ]
+            );
         }else{
             return response()->json(['status'=>0,'msg'=>'環信ID不存在']);
         }
