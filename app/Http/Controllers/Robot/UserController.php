@@ -65,7 +65,7 @@ class UserController extends Controller
                 ->where('RUId',$f_uid)
                 ->first();
             if ($rmap != false)
-                $result[$key][]  = $rmap;
+                $result[$key]  = $rmap;
         }
         return response()->json(['status'=>1,'friend_list'=>$result]);
     }
