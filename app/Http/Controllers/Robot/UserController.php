@@ -91,6 +91,8 @@ class UserController extends Controller
                 ->where('UId',$r_uid)->first();
             $robot->hx_id = $hx_id;
             return response()->json(['status'=>1,'r_info'=>$robot]);
+        }else{
+            return response()->json(['status'=>0,'r_info'=>[],'msg'=>"环信ID对应机器人不存在"]);
         }
 
     }
