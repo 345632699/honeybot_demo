@@ -31,6 +31,7 @@ class CommunityController extends Controller
         foreach ($list as $item){
             $item->created_at = strtotime($item->created_at);
             $item->updated_at = strtotime($item->updated_at);
+            $item->like = intval($item->like);
         }
         return response()->json(['article_list'=>$list]);
     }
