@@ -39,7 +39,11 @@ class CommunityController extends Controller
             $item->updated_at = strtotime($item->updated_at);
             $item->like = intval($item->like);
         }
-        return response()->json(['article_list'=>$list]);
+        $data['list'] = $list->items();
+        $data['page'] = isset($request->input()['page']) ? $request->page : 1;
+        $data['total'] = $list->total();
+        $data['limit'] = $limit;
+        return response()->json($data);
     }
 
     public function createArticle(Request $request){
