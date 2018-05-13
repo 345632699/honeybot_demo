@@ -79,20 +79,20 @@ class CommunityController extends Controller
             if ($request->hasFile('image')){
                 $name =  $request->file('image')->getClientOriginalName();
                 $ext =  $request->file('image')->getClientOriginalExtension();
-                $image = $url.'/upload/images/img_'.time().$name;
-                $request->file('image')->move($img_path,'img_'.time().$name.".".$ext);
+                $image = $url.'/upload/images/img_'.time().$name.".".$ext;
+                $request->file('image')->move($img_path,'img_'.time().$name);
             }
             if ($request->hasFile('voice')){
                 $name =  $request->file('voice')->getClientOriginalName();
                 $ext =  $request->file('voice')->getClientOriginalExtension();
-                $voice = $url.'/upload/voice/voice_'.time().$name;
-                $request->file('voice')->move($voice_path,'voice_'.time().$name.".".$ext);
+                $voice = $url.'/upload/voice/voice_'.time().$name.".".$ext;
+                $request->file('voice')->move($voice_path,'voice_'.time().$name);
             }
             if ($request->hasFile('thumbnail')){
                 $name =  $request->file('thumbnail')->getClientOriginalName();
                 $ext =  $request->file('thumbnail')->getClientOriginalExtension();
-                $thumbnail = $url.'/upload/images/thumbnail_'.time().$name;
-                $request->file('thumbnail')->move($img_path,'thumbnail_'.time().$name.".".$ext);
+                $thumbnail = $url.'/upload/images/thumbnail_'.time().$name.".".$ext;
+                $request->file('thumbnail')->move($img_path,'thumbnail_'.time().$name);
             }
             if (isset($request->input()['time_length'])){
                 $time = $request->input()['time_length'];
