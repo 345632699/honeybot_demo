@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Robot;
 
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CommunityController extends Controller
@@ -35,8 +36,8 @@ class CommunityController extends Controller
             ->where($where)
             ->paginate($limit);
         foreach ($list as $item){
-            $item->created_at = strtotime($item->created_at);
-            $item->updated_at = strtotime($item->updated_at);
+            $item->created_at = intval(strtotime($item->created_at));
+            $item->updated_at = intval(strtotime($item->updated_at));
             $item->like = intval($item->like);
             $item->time_length = intval($item->time_length);
         }
@@ -78,6 +79,8 @@ class CommunityController extends Controller
             $input['voice'] = isset($voice) ? $voice : null;
             $input['thumbnail'] = isset($thumbnail) ? $thumbnail : null;
             $input['time_length'] = isset($time) ? $time : null;
+            $input['created_at'] = Carbon::now();
+            $input['updated_at'] = Carbon::now();
             $input['like'] = 0;
 
             $res = \DB::table('robot_article')->insertGetId($input);
