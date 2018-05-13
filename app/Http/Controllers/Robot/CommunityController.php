@@ -41,8 +41,11 @@ class CommunityController extends Controller
             $item->like = intval($item->like);
             $item->time_length = intval($item->time_length);
         }
-        foreach (collect($list->items())->sortByDesc('id') as $v){
-            $list_arr[] = $v;
+        $list_arr = [];
+        if ($list->total() > 0){
+            foreach (collect($list->items())->sortByDesc('id') as $v){
+                $list_arr[] = $v;
+            }
         }
         $data['list'] = $list_arr;
         $data['page'] = isset($request->input()['page']) ? intval($request->page) : 1;
