@@ -43,7 +43,7 @@ class CommunityController extends Controller
         $data['list'] = $list->items();
         $data['page'] = isset($request->input()['page']) ? intval($request->page) : 1;
         $data['total'] = $list->total();
-        $data['limit'] = $limit;
+        $data['limit'] = intval($limit);
         return response()->json($data);
     }
 
