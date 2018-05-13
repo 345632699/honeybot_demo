@@ -53,18 +53,18 @@ class CommunityController extends Controller
             $voice_path = base_path('public/upload/voice');
             if ($request->hasFile('image')){
                 $name =  $request->file('image')->getClientOriginalName();
-                $image = 'public/upload/images/img_'.time().$name;
+                $image = 'upload/images/img_'.time().$name;
                 $request->file('image')->move($img_path,'img_'.time().$name);
             }
             if ($request->hasFile('voice')){
                 $name =  $request->file('voice')->getClientOriginalName();
-                $voice = 'public/upload/voice/voice_'.time().$name;
+                $voice = 'upload/voice/voice_'.time().$name;
                 $request->file('voice')->move($voice_path,'voice_'.time().$name);
             }
             if ($request->hasFile('thumbnail')){
                 $name =  $request->file('thumbnail')->getClientOriginalName();
-                $thumbnail = 'public/upload/images/thumbnail_'.time().$name;
-                $request->file('thumbnail')->move($voice_path,'thumbnail_'.time().$name);
+                $thumbnail = 'upload/images/thumbnail_'.time().$name;
+                $request->file('thumbnail')->move($img_path,'thumbnail_'.time().$name);
             }
             if (isset($request->input()['time_length'])){
                 $time = $request->input()['time_length'];
