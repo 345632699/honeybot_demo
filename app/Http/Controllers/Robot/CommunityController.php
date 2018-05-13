@@ -17,17 +17,23 @@ class CommunityController extends Controller
     public function index(Request $request){
         $where = [];
         //1 朋友可见  2 广场圈
-        $where['r_uid'] = $request->r_uid;
         if ($request->type == 1){
+            $where['r_uid'] = $request->r_uid;
             $where['type'] = 1;
         }else{
             $where['type'] = 2;
+        }
+        $bool = isset($request->input()['limit']);
+        if (!$bool){
+            $limit = 10;
+        }else{
+            $limit = $request->limit;
         }
         $list = \DB::table('robot_article')
             ->select("robot_article.*","NName as name","HeadUrl as head_image")
             ->leftJoin("RUserBase",'r_uid','=','UId')
             ->where($where)
-            ->get();
+            ->paginate($limit);
         foreach ($list as $item){
             $item->created_at = strtotime($item->created_at);
             $item->updated_at = strtotime($item->updated_at);
@@ -43,12 +49,20 @@ class CommunityController extends Controller
             if ($request->hasFile('image')){
                 $name =  $request->file('image')->getClientOriginalName();
                 $image = 'public/upload/images/img_'.time().$name;
-                $request->file('image')->move($img_path,$image);
+                $request->file('image')->move($img_path,'img_'.time().$name);
             }
             if ($request->hasFile('voice')){
                 $name =  $request->file('voice')->getClientOriginalName();
                 $voice = 'public/upload/voice/voice_'.time().$name;
-                $request->file('voice')->move($voice_path,$voice);
+                $request->file('voice')->move($voice_path,'voice_'.time().$name);
+            }
+            if ($request->hasFile('thumbnail')){
+                $name =  $request->file('thumbnail')->getClientOriginalName();
+                $thumbnail = 'public/upload/images/thumbnail_'.time().$name;
+                $request->file('thumbnail')->move($voice_path,'thumbnail_'.time().$name);
+            }
+            if (isset($request->input()['time_length'])){
+                $time = $request->input()['time_length'];
             }
 
             if (isset($request->type))
@@ -57,6 +71,8 @@ class CommunityController extends Controller
                 $input['r_uid'] = $request->r_uid;
             $input['image'] = isset($image) ? $image : null;
             $input['voice'] = isset($voice) ? $voice : null;
+            $input['thumbnail'] = isset($thumbnail) ? $thumbnail : null;
+            $input['time_length'] = isset($time) ? $time : null;
             $input['like'] = 0;
 
             $res = \DB::table('robot_article')->insertGetId($input);
