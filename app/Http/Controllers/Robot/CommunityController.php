@@ -38,9 +38,10 @@ class CommunityController extends Controller
             $item->created_at = strtotime($item->created_at);
             $item->updated_at = strtotime($item->updated_at);
             $item->like = intval($item->like);
+            $item->time_length = intval($item->time_length);
         }
         $data['list'] = $list->items();
-        $data['page'] = isset($request->input()['page']) ? $request->page : 1;
+        $data['page'] = isset($request->input()['page']) ? intval($request->page) : 1;
         $data['total'] = $list->total();
         $data['limit'] = $limit;
         return response()->json($data);
