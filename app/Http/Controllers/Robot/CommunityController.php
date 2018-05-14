@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Robot;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 
 class CommunityController extends Controller
 {
@@ -127,5 +128,34 @@ class CommunityController extends Controller
 
     public function test(){
         return view('test');
+    }
+
+    public function like($r_uid,$article_id){
+        try{
+            $input['r_uid'] = $r_uid;
+            $input['article_id'] = $article_id;
+            $input['created_at'] = Carbon::now();
+            $input['updated_at'] = Carbon::now();
+            $record = \DB::table('robot_like_record')->where(['r_uid'=>$r_uid,'article_id'=>$article_id]);
+            if ($record->count()){
+                $res = $record->delete();
+                if ($res){
+                    $return['status'] = 1 ;
+                    $return['msg'] = "删除成功";
+                    return response()->json($return);
+                }
+            }
+            $res = \DB::table('robot_like_record')->insert($input);
+            if ($res){
+                $return['status'] = 1 ;
+                $return['msg'] = "success";
+                return response()->json($return);
+            }
+        }catch (\Exception $e){
+            $return['status'] = 0 ;
+            $return['msg'] = "error";
+            $return['detail'] = $e->getMessage();
+            return response()->json($return);
+        }
     }
 }
