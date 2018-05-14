@@ -61,13 +61,21 @@ class CommunityController extends Controller
         foreach ($list as $item){
             $item->created_at = intval(strtotime($item->created_at));
             $item->updated_at = intval(strtotime($item->updated_at));
-            $item->like = intval($item->like);
             $item->time_length = intval($item->time_length);
+            $praiseRes = $this->getPraise($r_uid,$item->id);
+            $item->is_like = intval($praiseRes['is_praise']);
+            $item->like = intval($praiseRes['praise_count']);
         }
         $data['list'] = $list;
         $data['total'] = $list->count();
         $data['limit'] = intval($limit);
         return response()->json($data);
+    }
+
+    public function getPraise($r_uid,$article_id){
+        $praise_count = \DB::table("robot_like_record")->where('r_uid',$r_uid)->count();
+        $is_praise = \DB::table("robot_like_record")->where(['r_uid'=>$r_uid,'article_id'=>$article_id])->count();
+        return ['praise_count'=>$praise_count,'is_praise'=>$is_praise];
     }
 
     public function createArticle(Request $request){
