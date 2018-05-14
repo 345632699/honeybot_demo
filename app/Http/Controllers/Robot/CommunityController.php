@@ -73,7 +73,7 @@ class CommunityController extends Controller
     }
 
     public function getPraise($r_uid,$article_id){
-        $praise_count = \DB::table("robot_like_record")->where('r_uid',$r_uid)->count();
+        $praise_count = \DB::table("robot_like_record")->where('article_id',$article_id)->count();
         $is_praise = \DB::table("robot_like_record")->where(['r_uid'=>$r_uid,'article_id'=>$article_id])->count();
         return ['praise_count'=>$praise_count,'is_praise'=>$is_praise];
     }
