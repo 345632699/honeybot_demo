@@ -24,3 +24,4 @@ $router->get('/get_by_hx_id/{hx_id}','Robot\UserController@getRobotByHxId');
 $router->post('/article','Robot\CommunityController@createArticle');
 $router->get('/article_list','Robot\CommunityController@index');
 $router->get('/test','Robot\CommunityController@test');
+$router->get('/like/{r_uid}/{article_id}','Robot\CommunityController@like');
