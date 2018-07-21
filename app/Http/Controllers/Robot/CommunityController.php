@@ -95,6 +95,11 @@ class CommunityController extends Controller
                 $voice = $url.'/upload/voice/voice_'.time().$name;
                 $request->file('voice')->move($voice_path,'voice_'.time().$name);
             }
+            if ($request->hasFile('movie')){
+                $name =  $request->file('movie')->getClientOriginalName();
+                $movie = $url.'/upload/movie/movie_'.time().$name;
+                $request->file('movie')->move($voice_path,'movie_'.time().$name);
+            }
             if ($request->hasFile('thumbnail')){
                 $name =  $request->file('thumbnail')->getClientOriginalName();
                 $thumbnail = $url.'/upload/images/thumbnail_'.time().$name;
@@ -110,6 +115,7 @@ class CommunityController extends Controller
                 $input['r_uid'] = $request->r_uid;
             $input['image'] = isset($image) ? $image : null;
             $input['voice'] = isset($voice) ? $voice : null;
+            $input['movie'] = isset($movie) ? $movie : null;
             $input['thumbnail'] = isset($thumbnail) ? $thumbnail : null;
             $input['time_length'] = isset($time) ? $time : null;
             $input['created_at'] = Carbon::now();
